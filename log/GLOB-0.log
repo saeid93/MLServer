@@ -1,0 +1,240 @@
+action: GLOB, msg: packaging
+cwd: /home/cc/MLServer
+cmd: /home/cc/miniconda3/envs/mlserver-test/bin/python setup.py sdist --formats=zip --dist-dir /home/cc/MLServer/dist
+running sdist
+running egg_info
+writing mlserver.egg-info/PKG-INFO
+writing dependency_links to mlserver.egg-info/dependency_links.txt
+writing entry points to mlserver.egg-info/entry_points.txt
+writing requirements to mlserver.egg-info/requires.txt
+writing top-level names to mlserver.egg-info/top_level.txt
+reading manifest file 'mlserver.egg-info/SOURCES.txt'
+adding license file 'LICENSE'
+writing manifest file 'mlserver.egg-info/SOURCES.txt'
+running check
+creating mlserver-1.2.0.dev14
+creating mlserver-1.2.0.dev14/mlserver
+creating mlserver-1.2.0.dev14/mlserver.egg-info
+creating mlserver-1.2.0.dev14/mlserver/batching
+creating mlserver-1.2.0.dev14/mlserver/cli
+creating mlserver-1.2.0.dev14/mlserver/codecs
+creating mlserver-1.2.0.dev14/mlserver/grpc
+creating mlserver-1.2.0.dev14/mlserver/handlers
+creating mlserver-1.2.0.dev14/mlserver/kafka
+creating mlserver-1.2.0.dev14/mlserver/metrics
+creating mlserver-1.2.0.dev14/mlserver/parallel
+creating mlserver-1.2.0.dev14/mlserver/repository
+creating mlserver-1.2.0.dev14/mlserver/rest
+creating mlserver-1.2.0.dev14/mlserver/types
+copying files to mlserver-1.2.0.dev14...
+copying LICENSE -> mlserver-1.2.0.dev14
+copying README.md -> mlserver-1.2.0.dev14
+copying setup.cfg -> mlserver-1.2.0.dev14
+copying setup.py -> mlserver-1.2.0.dev14
+copying mlserver/__init__.py -> mlserver-1.2.0.dev14/mlserver
+copying mlserver/batch_processing.py -> mlserver-1.2.0.dev14/mlserver
+copying mlserver/cloudevents.py -> mlserver-1.2.0.dev14/mlserver
+copying mlserver/errors.py -> mlserver-1.2.0.dev14/mlserver
+copying mlserver/logging.py -> mlserver-1.2.0.dev14/mlserver
+copying mlserver/middleware.py -> mlserver-1.2.0.dev14/mlserver
+copying mlserver/model.py -> mlserver-1.2.0.dev14/mlserver
+copying mlserver/raw.py -> mlserver-1.2.0.dev14/mlserver
+copying mlserver/registry.py -> mlserver-1.2.0.dev14/mlserver
+copying mlserver/server.py -> mlserver-1.2.0.dev14/mlserver
+copying mlserver/settings.py -> mlserver-1.2.0.dev14/mlserver
+copying mlserver/utils.py -> mlserver-1.2.0.dev14/mlserver
+copying mlserver/version.py -> mlserver-1.2.0.dev14/mlserver
+copying mlserver.egg-info/PKG-INFO -> mlserver-1.2.0.dev14/mlserver.egg-info
+copying mlserver.egg-info/SOURCES.txt -> mlserver-1.2.0.dev14/mlserver.egg-info
+copying mlserver.egg-info/dependency_links.txt -> mlserver-1.2.0.dev14/mlserver.egg-info
+copying mlserver.egg-info/entry_points.txt -> mlserver-1.2.0.dev14/mlserver.egg-info
+copying mlserver.egg-info/requires.txt -> mlserver-1.2.0.dev14/mlserver.egg-info
+copying mlserver.egg-info/top_level.txt -> mlserver-1.2.0.dev14/mlserver.egg-info
+copying mlserver/batching/__init__.py -> mlserver-1.2.0.dev14/mlserver/batching
+copying mlserver/batching/adaptive.py -> mlserver-1.2.0.dev14/mlserver/batching
+copying mlserver/batching/hooks.py -> mlserver-1.2.0.dev14/mlserver/batching
+copying mlserver/batching/requests.py -> mlserver-1.2.0.dev14/mlserver/batching
+copying mlserver/batching/shape.py -> mlserver-1.2.0.dev14/mlserver/batching
+copying mlserver/cli/__init__.py -> mlserver-1.2.0.dev14/mlserver/cli
+copying mlserver/cli/build.py -> mlserver-1.2.0.dev14/mlserver/cli
+copying mlserver/cli/constants.py -> mlserver-1.2.0.dev14/mlserver/cli
+copying mlserver/cli/init_project.py -> mlserver-1.2.0.dev14/mlserver/cli
+copying mlserver/cli/main.py -> mlserver-1.2.0.dev14/mlserver/cli
+copying mlserver/cli/serve.py -> mlserver-1.2.0.dev14/mlserver/cli
+copying mlserver/codecs/__init__.py -> mlserver-1.2.0.dev14/mlserver/codecs
+copying mlserver/codecs/base.py -> mlserver-1.2.0.dev14/mlserver/codecs
+copying mlserver/codecs/base64.py -> mlserver-1.2.0.dev14/mlserver/codecs
+copying mlserver/codecs/datetime.py -> mlserver-1.2.0.dev14/mlserver/codecs
+copying mlserver/codecs/decorator.py -> mlserver-1.2.0.dev14/mlserver/codecs
+copying mlserver/codecs/errors.py -> mlserver-1.2.0.dev14/mlserver/codecs
+copying mlserver/codecs/lists.py -> mlserver-1.2.0.dev14/mlserver/codecs
+copying mlserver/codecs/numpy.py -> mlserver-1.2.0.dev14/mlserver/codecs
+copying mlserver/codecs/pandas.py -> mlserver-1.2.0.dev14/mlserver/codecs
+copying mlserver/codecs/string.py -> mlserver-1.2.0.dev14/mlserver/codecs
+copying mlserver/codecs/utils.py -> mlserver-1.2.0.dev14/mlserver/codecs
+copying mlserver/grpc/__init__.py -> mlserver-1.2.0.dev14/mlserver/grpc
+copying mlserver/grpc/converters.py -> mlserver-1.2.0.dev14/mlserver/grpc
+copying mlserver/grpc/dataplane_pb2.py -> mlserver-1.2.0.dev14/mlserver/grpc
+copying mlserver/grpc/dataplane_pb2_grpc.py -> mlserver-1.2.0.dev14/mlserver/grpc
+copying mlserver/grpc/interceptors.py -> mlserver-1.2.0.dev14/mlserver/grpc
+copying mlserver/grpc/logging.py -> mlserver-1.2.0.dev14/mlserver/grpc
+copying mlserver/grpc/model_repository.py -> mlserver-1.2.0.dev14/mlserver/grpc
+copying mlserver/grpc/model_repository_pb2.py -> mlserver-1.2.0.dev14/mlserver/grpc
+copying mlserver/grpc/model_repository_pb2_grpc.py -> mlserver-1.2.0.dev14/mlserver/grpc
+copying mlserver/grpc/server.py -> mlserver-1.2.0.dev14/mlserver/grpc
+copying mlserver/grpc/servicers.py -> mlserver-1.2.0.dev14/mlserver/grpc
+copying mlserver/grpc/utils.py -> mlserver-1.2.0.dev14/mlserver/grpc
+copying mlserver/handlers/__init__.py -> mlserver-1.2.0.dev14/mlserver/handlers
+copying mlserver/handlers/custom.py -> mlserver-1.2.0.dev14/mlserver/handlers
+copying mlserver/handlers/dataplane.py -> mlserver-1.2.0.dev14/mlserver/handlers
+copying mlserver/handlers/model_repository.py -> mlserver-1.2.0.dev14/mlserver/handlers
+copying mlserver/kafka/__init__.py -> mlserver-1.2.0.dev14/mlserver/kafka
+copying mlserver/kafka/errors.py -> mlserver-1.2.0.dev14/mlserver/kafka
+copying mlserver/kafka/handlers.py -> mlserver-1.2.0.dev14/mlserver/kafka
+copying mlserver/kafka/logging.py -> mlserver-1.2.0.dev14/mlserver/kafka
+copying mlserver/kafka/message.py -> mlserver-1.2.0.dev14/mlserver/kafka
+copying mlserver/kafka/server.py -> mlserver-1.2.0.dev14/mlserver/kafka
+copying mlserver/metrics/__init__.py -> mlserver-1.2.0.dev14/mlserver/metrics
+copying mlserver/metrics/logging.py -> mlserver-1.2.0.dev14/mlserver/metrics
+copying mlserver/metrics/server.py -> mlserver-1.2.0.dev14/mlserver/metrics
+copying mlserver/parallel/__init__.py -> mlserver-1.2.0.dev14/mlserver/parallel
+copying mlserver/parallel/dispatcher.py -> mlserver-1.2.0.dev14/mlserver/parallel
+copying mlserver/parallel/errors.py -> mlserver-1.2.0.dev14/mlserver/parallel
+copying mlserver/parallel/logging.py -> mlserver-1.2.0.dev14/mlserver/parallel
+copying mlserver/parallel/messages.py -> mlserver-1.2.0.dev14/mlserver/parallel
+copying mlserver/parallel/model.py -> mlserver-1.2.0.dev14/mlserver/parallel
+copying mlserver/parallel/pool.py -> mlserver-1.2.0.dev14/mlserver/parallel
+copying mlserver/parallel/utils.py -> mlserver-1.2.0.dev14/mlserver/parallel
+copying mlserver/parallel/worker.py -> mlserver-1.2.0.dev14/mlserver/parallel
+copying mlserver/repository/__init__.py -> mlserver-1.2.0.dev14/mlserver/repository
+copying mlserver/repository/factory.py -> mlserver-1.2.0.dev14/mlserver/repository
+copying mlserver/repository/load.py -> mlserver-1.2.0.dev14/mlserver/repository
+copying mlserver/repository/repository.py -> mlserver-1.2.0.dev14/mlserver/repository
+copying mlserver/rest/__init__.py -> mlserver-1.2.0.dev14/mlserver/rest
+copying mlserver/rest/app.py -> mlserver-1.2.0.dev14/mlserver/rest
+copying mlserver/rest/endpoints.py -> mlserver-1.2.0.dev14/mlserver/rest
+copying mlserver/rest/errors.py -> mlserver-1.2.0.dev14/mlserver/rest
+copying mlserver/rest/logging.py -> mlserver-1.2.0.dev14/mlserver/rest
+copying mlserver/rest/requests.py -> mlserver-1.2.0.dev14/mlserver/rest
+copying mlserver/rest/responses.py -> mlserver-1.2.0.dev14/mlserver/rest
+copying mlserver/rest/server.py -> mlserver-1.2.0.dev14/mlserver/rest
+copying mlserver/rest/utils.py -> mlserver-1.2.0.dev14/mlserver/rest
+copying mlserver/types/__init__.py -> mlserver-1.2.0.dev14/mlserver/types
+copying mlserver/types/base.py -> mlserver-1.2.0.dev14/mlserver/types
+copying mlserver/types/dataplane.py -> mlserver-1.2.0.dev14/mlserver/types
+copying mlserver/types/model_repository.py -> mlserver-1.2.0.dev14/mlserver/types
+Writing mlserver-1.2.0.dev14/setup.cfg
+creating /home/cc/MLServer/dist
+creating '/home/cc/MLServer/dist/mlserver-1.2.0.dev14.zip' and adding 'mlserver-1.2.0.dev14' to it
+adding 'mlserver-1.2.0.dev14'
+adding 'mlserver-1.2.0.dev14/mlserver'
+adding 'mlserver-1.2.0.dev14/mlserver.egg-info'
+adding 'mlserver-1.2.0.dev14/PKG-INFO'
+adding 'mlserver-1.2.0.dev14/setup.cfg'
+adding 'mlserver-1.2.0.dev14/LICENSE'
+adding 'mlserver-1.2.0.dev14/README.md'
+adding 'mlserver-1.2.0.dev14/setup.py'
+adding 'mlserver-1.2.0.dev14/mlserver/codecs'
+adding 'mlserver-1.2.0.dev14/mlserver/metrics'
+adding 'mlserver-1.2.0.dev14/mlserver/cli'
+adding 'mlserver-1.2.0.dev14/mlserver/types'
+adding 'mlserver-1.2.0.dev14/mlserver/batching'
+adding 'mlserver-1.2.0.dev14/mlserver/rest'
+adding 'mlserver-1.2.0.dev14/mlserver/handlers'
+adding 'mlserver-1.2.0.dev14/mlserver/grpc'
+adding 'mlserver-1.2.0.dev14/mlserver/kafka'
+adding 'mlserver-1.2.0.dev14/mlserver/parallel'
+adding 'mlserver-1.2.0.dev14/mlserver/repository'
+adding 'mlserver-1.2.0.dev14/mlserver/model.py'
+adding 'mlserver-1.2.0.dev14/mlserver/middleware.py'
+adding 'mlserver-1.2.0.dev14/mlserver/errors.py'
+adding 'mlserver-1.2.0.dev14/mlserver/server.py'
+adding 'mlserver-1.2.0.dev14/mlserver/version.py'
+adding 'mlserver-1.2.0.dev14/mlserver/logging.py'
+adding 'mlserver-1.2.0.dev14/mlserver/registry.py'
+adding 'mlserver-1.2.0.dev14/mlserver/__init__.py'
+adding 'mlserver-1.2.0.dev14/mlserver/batch_processing.py'
+adding 'mlserver-1.2.0.dev14/mlserver/settings.py'
+adding 'mlserver-1.2.0.dev14/mlserver/raw.py'
+adding 'mlserver-1.2.0.dev14/mlserver/cloudevents.py'
+adding 'mlserver-1.2.0.dev14/mlserver/utils.py'
+adding 'mlserver-1.2.0.dev14/mlserver/codecs/datetime.py'
+adding 'mlserver-1.2.0.dev14/mlserver/codecs/pandas.py'
+adding 'mlserver-1.2.0.dev14/mlserver/codecs/errors.py'
+adding 'mlserver-1.2.0.dev14/mlserver/codecs/numpy.py'
+adding 'mlserver-1.2.0.dev14/mlserver/codecs/base64.py'
+adding 'mlserver-1.2.0.dev14/mlserver/codecs/lists.py'
+adding 'mlserver-1.2.0.dev14/mlserver/codecs/string.py'
+adding 'mlserver-1.2.0.dev14/mlserver/codecs/base.py'
+adding 'mlserver-1.2.0.dev14/mlserver/codecs/decorator.py'
+adding 'mlserver-1.2.0.dev14/mlserver/codecs/__init__.py'
+adding 'mlserver-1.2.0.dev14/mlserver/codecs/utils.py'
+adding 'mlserver-1.2.0.dev14/mlserver/metrics/server.py'
+adding 'mlserver-1.2.0.dev14/mlserver/metrics/logging.py'
+adding 'mlserver-1.2.0.dev14/mlserver/metrics/__init__.py'
+adding 'mlserver-1.2.0.dev14/mlserver/cli/init_project.py'
+adding 'mlserver-1.2.0.dev14/mlserver/cli/build.py'
+adding 'mlserver-1.2.0.dev14/mlserver/cli/main.py'
+adding 'mlserver-1.2.0.dev14/mlserver/cli/serve.py'
+adding 'mlserver-1.2.0.dev14/mlserver/cli/constants.py'
+adding 'mlserver-1.2.0.dev14/mlserver/cli/__init__.py'
+adding 'mlserver-1.2.0.dev14/mlserver/types/model_repository.py'
+adding 'mlserver-1.2.0.dev14/mlserver/types/base.py'
+adding 'mlserver-1.2.0.dev14/mlserver/types/__init__.py'
+adding 'mlserver-1.2.0.dev14/mlserver/types/dataplane.py'
+adding 'mlserver-1.2.0.dev14/mlserver/batching/requests.py'
+adding 'mlserver-1.2.0.dev14/mlserver/batching/hooks.py'
+adding 'mlserver-1.2.0.dev14/mlserver/batching/adaptive.py'
+adding 'mlserver-1.2.0.dev14/mlserver/batching/__init__.py'
+adding 'mlserver-1.2.0.dev14/mlserver/batching/shape.py'
+adding 'mlserver-1.2.0.dev14/mlserver/rest/requests.py'
+adding 'mlserver-1.2.0.dev14/mlserver/rest/errors.py'
+adding 'mlserver-1.2.0.dev14/mlserver/rest/responses.py'
+adding 'mlserver-1.2.0.dev14/mlserver/rest/server.py'
+adding 'mlserver-1.2.0.dev14/mlserver/rest/endpoints.py'
+adding 'mlserver-1.2.0.dev14/mlserver/rest/logging.py'
+adding 'mlserver-1.2.0.dev14/mlserver/rest/app.py'
+adding 'mlserver-1.2.0.dev14/mlserver/rest/__init__.py'
+adding 'mlserver-1.2.0.dev14/mlserver/rest/utils.py'
+adding 'mlserver-1.2.0.dev14/mlserver/handlers/custom.py'
+adding 'mlserver-1.2.0.dev14/mlserver/handlers/model_repository.py'
+adding 'mlserver-1.2.0.dev14/mlserver/handlers/__init__.py'
+adding 'mlserver-1.2.0.dev14/mlserver/handlers/dataplane.py'
+adding 'mlserver-1.2.0.dev14/mlserver/grpc/dataplane_pb2.py'
+adding 'mlserver-1.2.0.dev14/mlserver/grpc/model_repository_pb2.py'
+adding 'mlserver-1.2.0.dev14/mlserver/grpc/servicers.py'
+adding 'mlserver-1.2.0.dev14/mlserver/grpc/dataplane_pb2_grpc.py'
+adding 'mlserver-1.2.0.dev14/mlserver/grpc/server.py'
+adding 'mlserver-1.2.0.dev14/mlserver/grpc/model_repository.py'
+adding 'mlserver-1.2.0.dev14/mlserver/grpc/interceptors.py'
+adding 'mlserver-1.2.0.dev14/mlserver/grpc/model_repository_pb2_grpc.py'
+adding 'mlserver-1.2.0.dev14/mlserver/grpc/logging.py'
+adding 'mlserver-1.2.0.dev14/mlserver/grpc/__init__.py'
+adding 'mlserver-1.2.0.dev14/mlserver/grpc/converters.py'
+adding 'mlserver-1.2.0.dev14/mlserver/grpc/utils.py'
+adding 'mlserver-1.2.0.dev14/mlserver/kafka/message.py'
+adding 'mlserver-1.2.0.dev14/mlserver/kafka/handlers.py'
+adding 'mlserver-1.2.0.dev14/mlserver/kafka/errors.py'
+adding 'mlserver-1.2.0.dev14/mlserver/kafka/server.py'
+adding 'mlserver-1.2.0.dev14/mlserver/kafka/logging.py'
+adding 'mlserver-1.2.0.dev14/mlserver/kafka/__init__.py'
+adding 'mlserver-1.2.0.dev14/mlserver/parallel/model.py'
+adding 'mlserver-1.2.0.dev14/mlserver/parallel/messages.py'
+adding 'mlserver-1.2.0.dev14/mlserver/parallel/pool.py'
+adding 'mlserver-1.2.0.dev14/mlserver/parallel/errors.py'
+adding 'mlserver-1.2.0.dev14/mlserver/parallel/logging.py'
+adding 'mlserver-1.2.0.dev14/mlserver/parallel/dispatcher.py'
+adding 'mlserver-1.2.0.dev14/mlserver/parallel/__init__.py'
+adding 'mlserver-1.2.0.dev14/mlserver/parallel/worker.py'
+adding 'mlserver-1.2.0.dev14/mlserver/parallel/utils.py'
+adding 'mlserver-1.2.0.dev14/mlserver/repository/factory.py'
+adding 'mlserver-1.2.0.dev14/mlserver/repository/repository.py'
+adding 'mlserver-1.2.0.dev14/mlserver/repository/load.py'
+adding 'mlserver-1.2.0.dev14/mlserver/repository/__init__.py'
+adding 'mlserver-1.2.0.dev14/mlserver.egg-info/PKG-INFO'
+adding 'mlserver-1.2.0.dev14/mlserver.egg-info/top_level.txt'
+adding 'mlserver-1.2.0.dev14/mlserver.egg-info/entry_points.txt'
+adding 'mlserver-1.2.0.dev14/mlserver.egg-info/requires.txt'
+adding 'mlserver-1.2.0.dev14/mlserver.egg-info/dependency_links.txt'
+adding 'mlserver-1.2.0.dev14/mlserver.egg-info/SOURCES.txt'
+removing 'mlserver-1.2.0.dev14' (and everything under it)

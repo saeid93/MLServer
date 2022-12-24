@@ -62,7 +62,7 @@ class RESTServer:
         self._server = _NoSignalServer(cfg)
         if not self._settings.debug:
             disable_health_access_logs()
-
+        logger.info('hello from the cusomt server!')
         logger.info(
             "HTTP server running on "
             f"http://{self._settings.host}:{self._settings.http_port}"

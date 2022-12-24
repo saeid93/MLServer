@@ -30,6 +30,9 @@ build: clean
 	./hack/build-images.sh ${VERSION}
 	./hack/build-wheels.sh ./dist
 
+build-saeid:
+	./hack/build-saeid.sh ${VERSION}
+
 clean:
 	rm -rf ./dist ./build *.egg-info
 	for _runtime in ./runtimes/*; \

@@ -22,14 +22,14 @@ _buildImage() {
     -t "$IMAGE_NAME:$_tag"
 }
 
-_buildRuntimeImage() {
-  local _runtimePath=$1
-  local _version=$2
-  local _runtimeName=$(basename $_runtimePath)
+# _buildRuntimeImage() {
+#   local _runtimePath=$1
+#   local _version=$2
+#   local _runtimeName=$(basename $_runtimePath)
 
-  echo "---> Building MLServer runtime image: $_runtimeName"
-  _buildImage "mlserver-$_runtimeName" "$_version-$_runtimeName"
-}
+#   echo "---> Building MLServer runtime image: $_runtimeName"
+#   _buildImage "mlserver-$_runtimeName" "$_version-$_runtimeName"
+# }
 
 _main() {
   local _version=$1

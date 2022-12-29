@@ -112,3 +112,9 @@ For example:
 ```bash
 ./hack/update-version.sh 0.2.0.dev1
 ```
+
+### Building customized version
+1. Build the custom image
+```
+make build-saeid
+```

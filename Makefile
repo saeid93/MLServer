@@ -1,5 +1,6 @@
 SHELL := /bin/bash
-VERSION := $(shell sed 's/^__version__ = "\(.*\)"/\1/' ./mlserver/version.py)
+# VERSION := $(shell sed 's/^__version__ = "\(.*\)"/\1/' ./mlserver/version.py)
+VERSION := custom
 IMAGE_NAME := seldonio/mlserver
 
 .PHONY: install-dev _generate generate run build \

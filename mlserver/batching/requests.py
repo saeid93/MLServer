@@ -10,7 +10,8 @@ from ..types import (
     ResponseOutput,
 )
 from .shape import Shape
-
+import time
+from mlserver.logging import logger
 
 def _get_data(payload: Union[RequestInput, ResponseOutput]):
     return getattr(payload.data, "__root__", payload.data)
@@ -35,6 +36,7 @@ def _merge_input_parameters(
         InferenceRequest, InferenceResponse, RequestInput, RequestOutput
     ],
 ) -> dict:
+    start = time.time()
     if not parametrised_obj.parameters:
         return all_params
     obj_params = parametrised_obj.parameters.dict()
@@ -60,6 +62,7 @@ def _merge_input_parameters(
                 new_all_params[key] = all_params[key]
             if key in obj_params.keys():
                 new_all_params[key] = obj_params[key]
+    logger.error(f"merging time: {time.time() - start}")
     return new_all_params
 
 

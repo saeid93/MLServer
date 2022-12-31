@@ -17,9 +17,16 @@ def _get_data(payload: Union[RequestInput, ResponseOutput]):
 def _get_parameters(payload: ResponseOutput) -> defaultdict[
     str, Union[List[str], str]]:
     parameters = defaultdict(list)
-    for param_name, param_values in payload.parameters.dict().items():
+    payload_parameters =payload.parameters.dict()
+    for param_name, param_values in payload_parameters.items():
+        if param_name in ['content_type', 'headers']:
+            continue
         for param_value in param_values:
             parameters[param_name].append(param_value)
+    if 'content_type' in payload_parameters.keys():
+        parameters['content_type'] = payload_parameters['content_type']
+    if 'headers' in payload_parameters.keys():
+        parameters['headers'] = payload_parameters['headers']
     return parameters
 
 def _merge_parameters(
@@ -212,7 +219,10 @@ class BatchedRequests:
     ) -> Dict[str, ResponseOutput]:
 
         all_data = self._split_data(response_output)
-        all_parameters = self._split_parameters(response_output)
+        if response_output.parameters is not None:
+            all_parameters = self._split_parameters(response_output)
+        else:
+            all_parameters = None
         response_outputs = {}
         for internal_id, data in all_data.items():
             shape = Shape(response_output.shape)
@@ -222,7 +232,8 @@ class BatchedRequests:
                 shape=shape.to_list(),
                 data=data,
                 datatype=response_output.datatype,
-                parameters=all_parameters[internal_id],
+                parameters=all_parameters if all_parameters is\
+                    None else all_parameters[internal_id],
             )
 
         return response_outputs
@@ -243,8 +254,6 @@ class BatchedRequests:
         return all_data
 
     def _split_parameters(self, response_output: ResponseOutput) -> Dict[str, List[str]]:
-        merged_shape = Shape(response_output.shape)
-        element_size = merged_shape.elem_size
         merged_parameters = _get_parameters(response_output)
         idx = 0
 
@@ -253,12 +262,18 @@ class BatchedRequests:
         for internal_id, minibatch_size in self._minibatch_sizes.items():
             parameter_args = {}
             for parameter_name, parameter_values in merged_parameters.items():
+                if parameter_name in ['content_type', 'headers']:
+                    continue
                 parameter_value = parameter_values[
-                    idx: idx + minibatch_size * element_size]
+                    idx: idx + minibatch_size]
                 if parameter_value != []:
                     parameter_args[parameter_name] = str(parameter_value)
+            if 'content_type' in merged_parameters.keys():
+                parameter_args['content_type'] = merged_parameters['content_type']
+            if 'headers' in merged_parameters.keys():
+                parameter_args['headers'] = merged_parameters['headers']
             parameter_obj = Parameters(**parameter_args)
             all_parameters[internal_id] = parameter_obj
-            idx += minibatch_size * element_size
+            idx += minibatch_size
 
         return all_parameters

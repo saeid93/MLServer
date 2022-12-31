@@ -11,23 +11,41 @@ from ..types import (
 )
 from .shape import Shape
 
+
 def _get_data(payload: Union[RequestInput, ResponseOutput]):
     return getattr(payload.data, "__root__", payload.data)
 
-def _get_parameters(payload: ResponseOutput) -> defaultdict[
-    str, Union[List[str], str]]:
+
+def _get_parameters(payload: ResponseOutput) -> defaultdict[str, Union[List[str], str]]:
     parameters = defaultdict(list)
-    payload_parameters =payload.parameters.dict()
+    payload_parameters = payload.parameters.dict()
     for param_name, param_values in payload_parameters.items():
-        if param_name in ['content_type', 'headers']:
+        if param_name in ["content_type", "headers"]:
             continue
         for param_value in param_values:
             parameters[param_name].append(param_value)
-    if 'content_type' in payload_parameters.keys():
-        parameters['content_type'] = payload_parameters['content_type']
-    if 'headers' in payload_parameters.keys():
-        parameters['headers'] = payload_parameters['headers']
+    if "content_type" in payload_parameters.keys():
+        parameters["content_type"] = payload_parameters["content_type"]
+    if "headers" in payload_parameters.keys():
+        parameters["headers"] = payload_parameters["headers"]
     return parameters
+
+
+def _get_parameters(payload: ResponseOutput) -> defaultdict[Any, Any]:
+    parameters = defaultdict(list)
+    if payload.parameters is not None:
+        payload_parameters = payload.parameters.dict()
+    for param_name, param_values in payload_parameters.items():
+        if param_name in ["content_type", "headers"]:
+            continue
+        for param_value in param_values:
+            parameters[param_name].append(param_value)
+    if "content_type" in payload_parameters.keys():
+        parameters["content_type"] = payload_parameters["content_type"]
+    if "headers" in payload_parameters.keys():
+        parameters["headers"] = payload_parameters["headers"]
+    return parameters
+
 
 def _merge_parameters(
     all_params: dict,
@@ -232,8 +250,9 @@ class BatchedRequests:
                 shape=shape.to_list(),
                 data=data,
                 datatype=response_output.datatype,
-                parameters=all_parameters if all_parameters is\
-                    None else all_parameters[internal_id],
+                parameters=all_parameters
+                if all_parameters is None
+                else all_parameters[internal_id],
             )
 
         return response_outputs
@@ -253,7 +272,9 @@ class BatchedRequests:
 
         return all_data
 
-    def _split_parameters(self, response_output: ResponseOutput) -> Dict[str, List[str]]:
+    def _split_parameters(
+        self, response_output: ResponseOutput
+    ) -> Dict[str, Parameters]:
         merged_parameters = _get_parameters(response_output)
         idx = 0
 
@@ -262,16 +283,15 @@ class BatchedRequests:
         for internal_id, minibatch_size in self._minibatch_sizes.items():
             parameter_args = {}
             for parameter_name, parameter_values in merged_parameters.items():
-                if parameter_name in ['content_type', 'headers']:
+                if parameter_name in ["content_type", "headers"]:
                     continue
-                parameter_value = parameter_values[
-                    idx: idx + minibatch_size]
+                parameter_value = parameter_values[idx : idx + minibatch_size]
                 if parameter_value != []:
                     parameter_args[parameter_name] = str(parameter_value)
-            if 'content_type' in merged_parameters.keys():
-                parameter_args['content_type'] = merged_parameters['content_type']
-            if 'headers' in merged_parameters.keys():
-                parameter_args['headers'] = merged_parameters['headers']
+            if "content_type" in merged_parameters.keys():
+                parameter_args["content_type"] = merged_parameters["content_type"]
+            if "headers" in merged_parameters.keys():
+                parameter_args["headers"] = merged_parameters["headers"]
             parameter_obj = Parameters(**parameter_args)
             all_parameters[internal_id] = parameter_obj
             idx += minibatch_size

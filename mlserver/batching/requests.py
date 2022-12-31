@@ -1,5 +1,5 @@
 from collections import defaultdict, OrderedDict
-from typing import Dict, List, Optional, Union
+from typing import Dict, List, Optional, Union, Any
 
 from ..types import (
     InferenceRequest,
@@ -14,6 +14,13 @@ from .shape import Shape
 def _get_data(payload: Union[RequestInput, ResponseOutput]):
     return getattr(payload.data, "__root__", payload.data)
 
+def _get_parameters(payload: ResponseOutput) -> defaultdict[
+    str, Union[List[str], str]]:
+    parameters = defaultdict(list)
+    for param_name, param_values in payload.parameters.dict().items():
+        for param_value in param_values:
+            parameters[param_name].append(param_value)
+    return parameters
 
 def _merge_parameters(
     all_params: dict,
@@ -205,6 +212,7 @@ class BatchedRequests:
     ) -> Dict[str, ResponseOutput]:
 
         all_data = self._split_data(response_output)
+        all_parameters = self._split_parameters(response_output)
         response_outputs = {}
         for internal_id, data in all_data.items():
             shape = Shape(response_output.shape)
@@ -214,12 +222,12 @@ class BatchedRequests:
                 shape=shape.to_list(),
                 data=data,
                 datatype=response_output.datatype,
-                parameters=response_output.parameters,
+                parameters=all_parameters[internal_id],
             )
 
         return response_outputs
 
-    def _split_data(self, response_output: ResponseOutput) -> Dict[str, ResponseOutput]:
+    def _split_data(self, response_output: ResponseOutput) -> Dict[str, Any]:
         merged_shape = Shape(response_output.shape)
         element_size = merged_shape.elem_size
         merged_data = _get_data(response_output)
@@ -233,3 +241,24 @@ class BatchedRequests:
             all_data[internal_id] = data
 
         return all_data
+
+    def _split_parameters(self, response_output: ResponseOutput) -> Dict[str, List[str]]:
+        merged_shape = Shape(response_output.shape)
+        element_size = merged_shape.elem_size
+        merged_parameters = _get_parameters(response_output)
+        idx = 0
+
+        all_parameters = {}
+        # TODO: Don't rely on array to have been flattened
+        for internal_id, minibatch_size in self._minibatch_sizes.items():
+            parameter_args = {}
+            for parameter_name, parameter_values in merged_parameters.items():
+                parameter_value = parameter_values[
+                    idx: idx + minibatch_size * element_size]
+                if parameter_value != []:
+                    parameter_args[parameter_name] = str(parameter_value)
+            parameter_obj = Parameters(**parameter_args)
+            all_parameters[internal_id] = parameter_obj
+            idx += minibatch_size * element_size
+
+        return all_parameters

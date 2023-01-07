@@ -1,5 +1,5 @@
 from collections import defaultdict, OrderedDict
-from typing import Dict, List, Optional, Union, Any
+from typing import Dict, List, Optional, Union, Any, DefaultDict
 
 from ..types import (
     InferenceRequest,
@@ -16,7 +16,7 @@ def _get_data(payload: Union[RequestInput, ResponseOutput]):
     return getattr(payload.data, "__root__", payload.data)
 
 
-def _get_parameters(payload: ResponseOutput) -> defaultdict[str, Union[List[str], str]]:
+def _get_parameters(payload: ResponseOutput) -> DefaultDict[str, Union[List[str], str]]:
     parameters = defaultdict(list)
     payload_parameters = payload.parameters.dict()
     for param_name, param_values in payload_parameters.items():
@@ -31,7 +31,7 @@ def _get_parameters(payload: ResponseOutput) -> defaultdict[str, Union[List[str]
     return parameters
 
 
-def _get_parameters(payload: ResponseOutput) -> defaultdict[Any, Any]:
+def _get_parameters(payload: ResponseOutput) -> DefaultDict[Any, Any]:
     parameters = defaultdict(list)
     if payload.parameters is not None:
         payload_parameters = payload.parameters.dict()

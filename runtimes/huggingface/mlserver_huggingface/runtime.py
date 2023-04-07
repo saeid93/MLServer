@@ -5,17 +5,19 @@ from mlserver.types import (
     InferenceRequest,
     InferenceResponse,
 )
-from mlserver_huggingface.common import (
+from transformers.pipelines import SUPPORTED_TASKS
+
+from mlserver.logging import logger
+
+from .common import (
     HuggingFaceSettings,
     parse_parameters_from_env,
     InvalidTranformerInitialisation,
     load_pipeline_from_settings,
+    SUPPORTED_OPTIMUM_TASKS,
 )
-from mlserver_huggingface.codecs import HuggingfaceRequestCodec
-from transformers.pipelines import SUPPORTED_TASKS
-from optimum.pipelines import SUPPORTED_TASKS as SUPPORTED_OPTIMUM_TASKS
-from mlserver.logging import logger
-from mlserver_huggingface.metadata import METADATA
+from .codecs import HuggingfaceRequestCodec
+from .metadata import METADATA
 
 
 class HuggingFaceRuntime(MLModel):
@@ -54,25 +56,22 @@ class HuggingFaceRuntime(MLModel):
                     ),
                 )
 
-        if settings.max_batch_size != self.hf_settings.batch_size:
-            logger.warning(
-                f"hf batch_size: {self.hf_settings.batch_size} is different "
-                f"from MLServer max_batch_size: {settings.max_batch_size}"
-            )
-
         super().__init__(settings)
 
     async def load(self) -> bool:
         # Loading & caching pipeline in asyncio loop to avoid blocking
         print("=" * 80)
-        print(self.hf_settings.task)
+        print(self.hf_settings.task_name)
         print("loading model...")
         await asyncio.get_running_loop().run_in_executor(
-            None, load_pipeline_from_settings, self.hf_settings
+            None,
+            load_pipeline_from_settings,
+            self.hf_settings,
+            self.settings,
         )
         print("(re)loading model...")
         # Now we load the cached model which should not block asyncio
-        self._model = load_pipeline_from_settings(self.hf_settings)
+        self._model = load_pipeline_from_settings(self.hf_settings, self.settings)
         self._merge_metadata()
         print("model has been loaded!")
         self.ready = True

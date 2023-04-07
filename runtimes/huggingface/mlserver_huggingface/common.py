@@ -6,12 +6,21 @@ from distutils.util import strtobool
 import numpy as np
 from pydantic import BaseSettings
 from mlserver.errors import MLServerError
+from mlserver.settings import ModelSettings
 
 from transformers.pipelines import pipeline
 from transformers.pipelines.base import Pipeline
 from transformers.models.auto.tokenization_auto import AutoTokenizer
 
-from optimum.pipelines import SUPPORTED_TASKS as SUPPORTED_OPTIMUM_TASKS
+try:
+    # Optimum 1.7 changed the import name from `SUPPORTED_TASKS` to
+    # `ORT_SUPPORTED_TASKS`.
+    # We'll try to import the more recent one, falling back to the previous
+    # import name if not present.
+    # https://github.com/huggingface/optimum/blob/987b02e4f6e2a1c9325b364ff764da2e57e89902/optimum/pipelines/__init__.py#L18
+    from optimum.pipelines import ORT_SUPPORTED_TASKS as SUPPORTED_OPTIMUM_TASKS
+except ImportError:
+    from optimum.pipelines import SUPPORTED_TASKS as SUPPORTED_OPTIMUM_TASKS
 
 
 HUGGINGFACE_TASK_TAG = "task"
@@ -38,11 +47,20 @@ class HuggingFaceSettings(BaseSettings):
         env_prefix = ENV_PREFIX_HUGGINGFACE_SETTINGS
 
     task: str = ""
+    # Why need this filed?
+    # for translation task, required a suffix to specify source and target
+    # related issue: https://github.com/SeldonIO/MLServer/issues/947
+    task_suffix: str = ""
     pretrained_model: Optional[str] = None
     pretrained_tokenizer: Optional[str] = None
     optimum_model: bool = False
     device: int = -1
-    batch_size: Optional[int] = None
+
+    @property
+    def task_name(self):
+        if self.task == "translation":
+            return f"{self.task}{self.task_suffix}"
+        return self.task
 
 
 def parse_parameters_from_env() -> Dict:
@@ -89,7 +107,9 @@ def parse_parameters_from_env() -> Dict:
     return parsed_parameters
 
 
-def load_pipeline_from_settings(hf_settings: HuggingFaceSettings) -> Pipeline:
+def load_pipeline_from_settings(
+    hf_settings: HuggingFaceSettings, settings: ModelSettings
+) -> Pipeline:
     """
     TODO
     """
@@ -113,16 +133,17 @@ def load_pipeline_from_settings(hf_settings: HuggingFaceSettings) -> Pipeline:
         # https://github.com/huggingface/optimum/issues/191
         device = -1
 
+    batch_size = 1 if settings.max_batch_size == 0 else settings.max_batch_size
     pp = pipeline(
-        hf_settings.task,
+        hf_settings.task_name,
         model=model,
         tokenizer=tokenizer,
         device=device,
-        batch_size=hf_settings.batch_size,
+        batch_size=batch_size,
     )
 
-    # If batch_size > 0 we need to ensure tokens are padded
-    if hf_settings.batch_size:
+    # If max_batch_size > 0 we need to ensure tokens are padded
+    if settings.max_batch_size:
         pp.tokenizer.pad_token_id = [str(pp.model.config.eos_token_id)]  # type: ignore
 
     return pp

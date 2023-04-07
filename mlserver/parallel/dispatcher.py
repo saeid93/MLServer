@@ -1,12 +1,13 @@
 import asyncio
 
-from typing import Dict, List
+from typing import Dict, List, Tuple
 from itertools import cycle
 from multiprocessing import Queue
 from concurrent.futures import ThreadPoolExecutor
 from asyncio import Future
 
 from ..utils import schedule_with_callback, generate_uuid
+from ..metrics import REGISTRY
 
 from .worker import Worker
 from .logging import logger
@@ -17,6 +18,9 @@ from .messages import (
     ModelRequestMessage,
     ModelResponseMessage,
 )
+from prometheus_client import Histogram
+
+QUEUE_METRIC_NAME = "parallel_request_queue"
 
 
 class Dispatcher:
@@ -28,6 +32,18 @@ class Dispatcher:
         self._process_responses_task = None
         self._executor = ThreadPoolExecutor()
         self._async_responses: Dict[str, Future[ModelResponseMessage]] = {}
+        self.parallel_request_queue_size = self._get_or_create_metric()
+
+    def _get_or_create_metric(self) -> Histogram:
+        if QUEUE_METRIC_NAME in REGISTRY:
+            return REGISTRY[QUEUE_METRIC_NAME]  # type: ignore
+
+        return Histogram(
+            QUEUE_METRIC_NAME,
+            "counter of request queue size for workers",
+            ["workerpid"],
+            registry=REGISTRY,
+        )
 
     def start(self):
         self._active = True
@@ -79,18 +95,27 @@ class Dispatcher:
     async def dispatch_request(
         self, request_message: ModelRequestMessage
     ) -> ModelResponseMessage:
-        worker = self._get_worker()
+        worker, wpid = self._get_worker()
+        self._workers_queue_monitor(worker, wpid)
         worker.send_request(request_message)
 
         return await self._dispatch(request_message)
 
-    def _get_worker(self) -> Worker:
+    def _get_worker(self) -> Tuple[Worker, int]:
         """
         Get next available worker.
         By default, this is just a round-robin through all the workers.
         """
         worker_pid = next(self._workers_round_robin)
-        return self._workers[worker_pid]
+        return self._workers[worker_pid], worker_pid
+
+    def _workers_queue_monitor(self, worker: Worker, worker_pid: int):
+        """Get metrics from every worker request queue"""
+        queue_size = worker._requests.qsize()
+
+        self.parallel_request_queue_size.labels(workerpid=str(worker_pid)).observe(
+            float(queue_size)
+        )
 
     async def dispatch_update(
         self, model_update: ModelUpdateMessage

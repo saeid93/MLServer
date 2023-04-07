@@ -14,18 +14,18 @@ walks through the process of writing a custom runtime.
 
 MLServer is designed as an easy-to-extend framework, encouraging users to write
 their own custom runtimes easily.
-The starting point for this is the `mlserver.MLModel` abstract class, whose
-main methods are:
+The starting point for this is the {class}`MLModel <mlserver.MLModel>`
+abstract class, whose main methods are:
 
-- `load(self) -> bool`:
+- {func}`load() <mlserver.MLModel.load>`:
   Responsible for loading any artifacts related to a model (e.g. model
   weights, pickle files, etc.).
-- `predict(self, payload: InferenceRequest) -> InferenceResponse`:
+- {func}`predict() <mlserver.MLModel.predict>`:
   Responsible for using a model to perform inference on an incoming data point.
 
 Therefore, the _"one-line version"_ of how to write a custom runtime is to
-write a custom class extending from `mlserver.MLModel`, and then overriding
-those methods with your custom logic.
+write a custom class extending from {class}`MLModel <mlserver.MLModel>`,
+and then overriding those methods with your custom logic.
 
 ```{code-block} python
 ---
@@ -52,9 +52,9 @@ class MyCustomRuntime(MLModel):
 MLServer exposes an alternative _"simplified" interface_ which can be used to
 write custom runtimes.
 This interface can be enabled by decorating your `predict()` method with the
-`mlserver.codecs.decode_args` decorator, and it lets you specify in the method
-signature both how you want your request payload to be decoded and how to
-encode the response back.
+`mlserver.codecs.decode_args` decorator.
+This will let you specify in the method signature both how you want your
+request payload to be decoded and how to encode the response back.
 
 Based on the information provided in the method signature, MLServer will
 automatically decode the request payload into the different inputs specified as
@@ -172,15 +172,6 @@ class CustomHeadersRuntime(MLModel):
 
 ## Loading a custom MLServer runtime
 
-```{note}
-When following this approach, custom runtimes will get loaded into a "vanilla"
-MLServer instance, which may be missing some of the dependencies of your custom
-environment.
-If you need to load a custom set of dependencies, we recommend to either build
-a [custom MLServer image](#building-a-custom-mlserver-image) or to prepare a
-[custom environment tarball](../examples/conda/README).
-```
-
 MLServer lets you load custom runtimes dynamically into a running instance of
 MLServer.
 Once you have your custom runtime ready, all you need to is to move it to your
@@ -203,6 +194,65 @@ Note that, from the example above, we are assuming that:
 - The `implementation` field of your `model-settings.json` configuration file
   contains the import path of your custom runtime (e.g.
   `models.MyCustomRuntime`).
+
+  ```{code-block} json
+  ---
+  emphasize-lines: 3
+  ---
+  {
+    "model": "sum-model",
+    "implementation": "models.MyCustomRuntime"
+  }
+  ```
+
+### Loading a custom Python environment
+
+More often that not, your custom runtimes will depend on external 3rd party
+dependencies which are not included within the main MLServer package.
+In these cases, to load your custom runtime, MLServer will need access to these
+dependencies.
+
+It is possible to load this custom set of dependencies by providing them
+through an [environment tarball](../examples/conda/README), whose path can be
+specified within your `model-settings.json` file.
+
+```{warning}
+To load a custom environment, [parallel inference](./parallel-inference)
+**must** be enabled.
+```
+
+If we take the [previous example](#Loading-a-custom-MLServer-runtime) above as
+a reference, we could extend it to include our custom environment as:
+
+```bash
+.
+└── models
+    └── sum-model
+        ├── environment.tar.gz
+        ├── model-settings.json
+        ├── models.py
+```
+
+Note that, in the folder layout above, we are assuming that:
+
+- The `environment.tar.gz` tarball contains a pre-packaged version of your
+  custom environment.
+- The `environment_tarball` field of your `model-settings.json` configuration file
+  points to your pre-packaged custom environment (i.e.
+  `./environment.tar.gz`).
+
+  ```{code-block} json
+  ---
+  emphasize-lines: 5
+  ---
+  {
+    "model": "sum-model",
+    "implementation": "models.MyCustomRuntime",
+    "parameters": {
+      "tarball_path": "./environment.tar.gz"
+    }
+  }
+  ```
 
 ## Building a custom MLServer image
 

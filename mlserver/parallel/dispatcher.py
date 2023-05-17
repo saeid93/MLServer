@@ -19,6 +19,7 @@ from .messages import (
     ModelResponseMessage,
 )
 from prometheus_client import Histogram
+from prometheus_client import Gauge
 
 QUEUE_METRIC_NAME = "parallel_request_queue"
 
@@ -32,6 +33,7 @@ class Dispatcher:
         self._process_responses_task = None
         self._executor = ThreadPoolExecutor()
         self._async_responses: Dict[str, Future[ModelResponseMessage]] = {}
+        self.requests_queue_size = Gauge('requests_queue', 'requests in the requests queue')
         self.parallel_request_queue_size = self._get_or_create_metric()
 
     def _get_or_create_metric(self) -> Histogram:
@@ -116,6 +118,7 @@ class Dispatcher:
         self.parallel_request_queue_size.labels(workerpid=str(worker_pid)).observe(
             float(queue_size)
         )
+        self.requests_queue_size.set(float(queue_size))
 
     async def dispatch_update(
         self, model_update: ModelUpdateMessage

@@ -119,6 +119,7 @@ class Dispatcher:
             float(queue_size)
         )
         self.requests_queue_size.set(float(queue_size))
+        logger.info(f"queue size: {queue_size}")
 
     async def dispatch_update(
         self, model_update: ModelUpdateMessage

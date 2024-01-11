@@ -859,6 +859,54 @@ class ModelInferResponse(google.protobuf.message.Message):
 
 global___ModelInferResponse = ModelInferResponse
 
+class NodeInfo(google.protobuf.message.Message):
+    """A message to represent a node with arrival and serving values."""
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+    NODE_NAME_FIELD_NUMBER: builtins.int
+    ARRIVAL_FIELD_NUMBER: builtins.int
+    SERVING_FIELD_NUMBER: builtins.int
+    node_name: typing.Text = ...
+    arrival: builtins.float = ...
+    serving: builtins.float = ...
+    def __init__(
+        self,
+        *,
+        node_name: typing.Text = ...,
+        arrival: builtins.float = ...,
+        serving: builtins.float = ...,
+    ) -> None: ...
+    def ClearField(
+        self,
+        field_name: typing_extensions.Literal[
+            "arrival", b"arrival", "node_name", b"node_name", "serving", b"serving"
+        ],
+    ) -> None: ...
+
+global___NodeInfo = NodeInfo
+
+class ExtendedInferParameter(google.protobuf.message.Message):
+    """An inference parameter value that accepts a list of dictionaries."""
+
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+    NODE_INFO_FIELD_NUMBER: builtins.int
+    @property
+    def node_info(
+        self,
+    ) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[
+        global___NodeInfo
+    ]: ...
+    def __init__(
+        self,
+        *,
+        node_info: typing.Optional[typing.Iterable[global___NodeInfo]] = ...,
+    ) -> None: ...
+    def ClearField(
+        self, field_name: typing_extensions.Literal["node_info", b"node_info"]
+    ) -> None: ...
+
+global___ExtendedInferParameter = ExtendedInferParameter
+
 class InferParameter(google.protobuf.message.Message):
     """
     An inference parameter value.
@@ -868,6 +916,7 @@ class InferParameter(google.protobuf.message.Message):
     BOOL_PARAM_FIELD_NUMBER: builtins.int
     INT64_PARAM_FIELD_NUMBER: builtins.int
     STRING_PARAM_FIELD_NUMBER: builtins.int
+    EXTENDED_PARAM_FIELD_NUMBER: builtins.int
     bool_param: builtins.bool = ...
     """A boolean parameter value."""
 
@@ -877,18 +926,25 @@ class InferParameter(google.protobuf.message.Message):
     string_param: typing.Text = ...
     """A string parameter value."""
 
+    @property
+    def extended_param(self) -> global___ExtendedInferParameter:
+        """An extended struct for the time values"""
+        pass
     def __init__(
         self,
         *,
         bool_param: builtins.bool = ...,
         int64_param: builtins.int = ...,
         string_param: typing.Text = ...,
+        extended_param: typing.Optional[global___ExtendedInferParameter] = ...,
     ) -> None: ...
     def HasField(
         self,
         field_name: typing_extensions.Literal[
             "bool_param",
             b"bool_param",
+            "extended_param",
+            b"extended_param",
             "int64_param",
             b"int64_param",
             "parameter_choice",
@@ -902,6 +958,8 @@ class InferParameter(google.protobuf.message.Message):
         field_name: typing_extensions.Literal[
             "bool_param",
             b"bool_param",
+            "extended_param",
+            b"extended_param",
             "int64_param",
             b"int64_param",
             "parameter_choice",
@@ -914,7 +972,9 @@ class InferParameter(google.protobuf.message.Message):
         self,
         oneof_group: typing_extensions.Literal["parameter_choice", b"parameter_choice"],
     ) -> typing.Optional[
-        typing_extensions.Literal["bool_param", "int64_param", "string_param"]
+        typing_extensions.Literal[
+            "bool_param", "int64_param", "string_param", "extended_param"
+        ]
     ]: ...
 
 global___InferParameter = InferParameter

@@ -272,7 +272,8 @@ class BatchedRequests:
                 try:
                     parameter_value = parameter_values[idx]
                     if parameter_value != []:
-                        parameter_args[parameter_name] = str(parameter_value)
+                        # parameter_args[parameter_name] = str(parameter_value)
+                        parameter_args[parameter_name] = parameter_value
                 except IndexError:
                     pass
             if "content_type" in merged_parameters.keys():

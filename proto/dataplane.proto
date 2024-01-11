@@ -285,6 +285,17 @@ message ModelInferResponse
   repeated bytes raw_output_contents = 6;
 }
 
+// A message to represent a node with arrival and serving values.
+message NodeInfo {
+  string node_name = 1;
+  float arrival = 2;
+  float serving = 3;
+}
+
+// An inference parameter value that accepts a list of dictionaries.
+message ExtendedInferParameter {
+  repeated NodeInfo node_info = 1;
+}
 
 //
 // An inference parameter value.
@@ -303,6 +314,10 @@ message InferParameter
 
     // A string parameter value.
     string string_param = 3;
+
+    // An extended struct for the time values
+    ExtendedInferParameter extended_param = 4;
+
   }
 }
 

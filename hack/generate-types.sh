@@ -2,7 +2,7 @@ ROOT_FOLDER="$(dirname "${0}")/.."
 
 _generatePB() {
   local apiName=$1
-
+  echo "Hi"
   python -m grpc_tools.protoc \
     -I"${ROOT_FOLDER}/proto" \
     --python_out="${ROOT_FOLDER}/mlserver/grpc" \

@@ -28,6 +28,7 @@ class Parameters(BaseModel):
 
     content_type: Optional[str] = None
     headers: Optional[Dict[str, Any]] = None
+    times: Optional[Any] = None
 
 
 class TensorData(BaseModel):

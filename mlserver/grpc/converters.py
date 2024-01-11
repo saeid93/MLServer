@@ -299,11 +299,39 @@ class ParametersConverter:
 
         for key, value in as_dict.items():
             infer_parameter_key = cls._get_inferparameter_key(value)
+            if key == "times":
+                a = 1
             if infer_parameter_key is None:
                 # TODO: Log warning about ignored field
                 continue
+            # if infer_parameter_key == "any_param":
+            #     # Convert the dictionary to a Struct
+            #     struct_data = Struct()
+            #     for key, val in value.items():
+            #         struct_data[key]. = val
 
-            infer_parameter = pb.InferParameter(**{infer_parameter_key: value})
+            #     # Create an InferParameter instance with a dictionary
+            #     infer_parameter = InferParameter(
+            #         any_param=Any(
+            #             type_url="type.googleapis.com/google.protobuf.Struct",
+            #             value=struct_data.SerializeToString()
+            #         )
+            #     )
+            # else:
+            if infer_parameter_key == "extended_param":
+                node_info_list = []
+                for node_info in value:
+                    node_info_list.append(
+                        pb.NodeInfo(
+                            node_name=node_info["node_name"],
+                            arrival=node_info["arrival"],
+                            serving=node_info["serving"]
+                        )
+                    )
+                extended_param = pb.ExtendedInferParameter(node_info=node_info_list)
+                infer_parameter = pb.InferParameter(extended_param=extended_param)
+            else:
+                infer_parameter = pb.InferParameter(**{infer_parameter_key: value})
             pb_object[key] = infer_parameter
 
         return pb_object
@@ -316,6 +344,8 @@ class ParametersConverter:
             return "string_param"
         elif isinstance(value, int):
             return "int64_param"
+        elif isinstance(value, list):
+            return "extended_param"
 
         return None
 

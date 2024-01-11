@@ -389,6 +389,7 @@ components:
           type: string
         headers:
           type: object
+        times: {}
     RequestInput:
       title: RequestInput
       type: object

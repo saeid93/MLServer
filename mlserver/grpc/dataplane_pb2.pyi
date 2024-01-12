@@ -859,50 +859,88 @@ class ModelInferResponse(google.protobuf.message.Message):
 
 global___ModelInferResponse = ModelInferResponse
 
-class NodeInfo(google.protobuf.message.Message):
+class DatashapeList(google.protobuf.message.Message):
+    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
+    DATASHAPE_ITEM_FIELD_NUMBER: builtins.int
+    @property
+    def datashape_item(
+        self,
+    ) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[
+        builtins.int
+    ]: ...
+    def __init__(
+        self,
+        *,
+        datashape_item: typing.Optional[typing.Iterable[builtins.int]] = ...,
+    ) -> None: ...
+    def ClearField(
+        self, field_name: typing_extensions.Literal["datashape_item", b"datashape_item"]
+    ) -> None: ...
+
+global___DatashapeList = DatashapeList
+
+class ExtendedInferParameter(google.protobuf.message.Message):
     """A message to represent a node with arrival and serving values."""
 
     DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
     NODE_NAME_FIELD_NUMBER: builtins.int
     ARRIVAL_FIELD_NUMBER: builtins.int
     SERVING_FIELD_NUMBER: builtins.int
-    node_name: typing.Text = ...
-    arrival: builtins.float = ...
-    serving: builtins.float = ...
-    def __init__(
-        self,
-        *,
-        node_name: typing.Text = ...,
-        arrival: builtins.float = ...,
-        serving: builtins.float = ...,
-    ) -> None: ...
-    def ClearField(
-        self,
-        field_name: typing_extensions.Literal[
-            "arrival", b"arrival", "node_name", b"node_name", "serving", b"serving"
-        ],
-    ) -> None: ...
-
-global___NodeInfo = NodeInfo
-
-class ExtendedInferParameter(google.protobuf.message.Message):
-    """An inference parameter value that accepts a list of dictionaries."""
-
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
-    NODE_INFO_FIELD_NUMBER: builtins.int
+    DTYPE_FIELD_NUMBER: builtins.int
+    DATASHAPE_FIELD_NUMBER: builtins.int
     @property
-    def node_info(
+    def node_name(
+        self,
+    ) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[
+        typing.Text
+    ]: ...
+    @property
+    def arrival(
+        self,
+    ) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[
+        builtins.float
+    ]: ...
+    @property
+    def serving(
+        self,
+    ) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[
+        builtins.float
+    ]: ...
+    @property
+    def dtype(
+        self,
+    ) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[
+        typing.Text
+    ]: ...
+    @property
+    def datashape(
         self,
     ) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[
-        global___NodeInfo
+        global___DatashapeList
     ]: ...
     def __init__(
         self,
         *,
-        node_info: typing.Optional[typing.Iterable[global___NodeInfo]] = ...,
+        node_name: typing.Optional[typing.Iterable[typing.Text]] = ...,
+        arrival: typing.Optional[typing.Iterable[builtins.float]] = ...,
+        serving: typing.Optional[typing.Iterable[builtins.float]] = ...,
+        dtype: typing.Optional[typing.Iterable[typing.Text]] = ...,
+        datashape: typing.Optional[typing.Iterable[global___DatashapeList]] = ...,
     ) -> None: ...
     def ClearField(
-        self, field_name: typing_extensions.Literal["node_info", b"node_info"]
+        self,
+        field_name: typing_extensions.Literal[
+            "arrival",
+            b"arrival",
+            "datashape",
+            b"datashape",
+            "dtype",
+            b"dtype",
+            "node_name",
+            b"node_name",
+            "serving",
+            b"serving",
+        ],
     ) -> None: ...
 
 global___ExtendedInferParameter = ExtendedInferParameter

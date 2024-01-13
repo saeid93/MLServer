@@ -30,6 +30,10 @@ build: clean
 	./hack/build-images.sh ${VERSION}
 	./hack/build-wheels.sh ./dist
 
+build-saeid:
+	chmod +x ./hack/build-saeid.sh 
+	./hack/build-saeid.sh ${VERSION}
+
 clean:
 	rm -rf ./dist ./build *.egg-info .tox
 	for _runtime in ./runtimes/*; \

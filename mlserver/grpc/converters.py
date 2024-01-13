@@ -43,7 +43,7 @@ def _get_extended_value(pb_object, default: Optional[Any] = None) -> Any:
         "arrival": field_value.arrival,
         "serving": field_value.serving,
         "dtype": field_value.dtype,
-        "datashape": [datashape.datashape_item for datashape in field_value.datashape],
+        "datashape": field_value.datashape,
     }
     return extended_parameters
 
@@ -321,11 +321,6 @@ class ParametersConverter:
                 # TODO: Log warning about ignored field
                 continue
             if infer_parameter_key == "extended_param":
-                if "datashape" in value.keys():
-                    value["datashape"] = [
-                        pb.DatashapeList(datashape_item=item)
-                        for item in value["datashape"]
-                    ]
                 extended_param = pb.ExtendedInferParameter(**value)
                 infer_parameter = pb.InferParameter(extended_param=extended_param)
             else:

@@ -285,17 +285,13 @@ message ModelInferResponse
   repeated bytes raw_output_contents = 6;
 }
 
-message DatashapeList {
-  repeated int64 datashape_item = 1;
-}
-
 // A message to represent a node with arrival and serving values.
 message ExtendedInferParameter {
   repeated string node_name = 1;
   repeated float arrival = 2;
   repeated float serving = 3;
-  repeated string dtype = 4;
-  repeated DatashapeList datashape = 5;
+  string dtype = 4;
+  repeated int64 datashape = 5;
 }
 
 //

@@ -859,26 +859,6 @@ class ModelInferResponse(google.protobuf.message.Message):
 
 global___ModelInferResponse = ModelInferResponse
 
-class DatashapeList(google.protobuf.message.Message):
-    DESCRIPTOR: google.protobuf.descriptor.Descriptor = ...
-    DATASHAPE_ITEM_FIELD_NUMBER: builtins.int
-    @property
-    def datashape_item(
-        self,
-    ) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[
-        builtins.int
-    ]: ...
-    def __init__(
-        self,
-        *,
-        datashape_item: typing.Optional[typing.Iterable[builtins.int]] = ...,
-    ) -> None: ...
-    def ClearField(
-        self, field_name: typing_extensions.Literal["datashape_item", b"datashape_item"]
-    ) -> None: ...
-
-global___DatashapeList = DatashapeList
-
 class ExtendedInferParameter(google.protobuf.message.Message):
     """A message to represent a node with arrival and serving values."""
 
@@ -906,17 +886,12 @@ class ExtendedInferParameter(google.protobuf.message.Message):
     ) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[
         builtins.float
     ]: ...
-    @property
-    def dtype(
-        self,
-    ) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[
-        typing.Text
-    ]: ...
+    dtype: typing.Text = ...
     @property
     def datashape(
         self,
-    ) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[
-        global___DatashapeList
+    ) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[
+        builtins.int
     ]: ...
     def __init__(
         self,
@@ -924,8 +899,8 @@ class ExtendedInferParameter(google.protobuf.message.Message):
         node_name: typing.Optional[typing.Iterable[typing.Text]] = ...,
         arrival: typing.Optional[typing.Iterable[builtins.float]] = ...,
         serving: typing.Optional[typing.Iterable[builtins.float]] = ...,
-        dtype: typing.Optional[typing.Iterable[typing.Text]] = ...,
-        datashape: typing.Optional[typing.Iterable[global___DatashapeList]] = ...,
+        dtype: typing.Text = ...,
+        datashape: typing.Optional[typing.Iterable[builtins.int]] = ...,
     ) -> None: ...
     def ClearField(
         self,

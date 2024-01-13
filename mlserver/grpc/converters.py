@@ -39,9 +39,9 @@ def _get_extended_value(pb_object, default: Optional[Any] = None) -> Any:
 
     _, field_value = fields[0]
     extended_parameters = {
-        "node_name": field_value.node_name,
-        "arrival": field_value.arrival,
-        "serving": field_value.serving,
+        "node_name": list(field_value.node_name),
+        "arrival": list(field_value.arrival),
+        "serving": list(field_value.serving),
         "dtype": field_value.dtype,
         "datashape": field_value.datashape,
     }

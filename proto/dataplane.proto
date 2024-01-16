@@ -292,6 +292,7 @@ message ExtendedInferParameter {
   repeated float serving = 3;
   string dtype = 4;
   repeated int64 datashape = 5;
+  string next_node = 6;
 }
 
 //

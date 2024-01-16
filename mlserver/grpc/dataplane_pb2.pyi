@@ -868,6 +868,7 @@ class ExtendedInferParameter(google.protobuf.message.Message):
     SERVING_FIELD_NUMBER: builtins.int
     DTYPE_FIELD_NUMBER: builtins.int
     DATASHAPE_FIELD_NUMBER: builtins.int
+    NEXT_NODE_FIELD_NUMBER: builtins.int
     @property
     def node_name(
         self,
@@ -893,6 +894,7 @@ class ExtendedInferParameter(google.protobuf.message.Message):
     ) -> google.protobuf.internal.containers.RepeatedScalarFieldContainer[
         builtins.int
     ]: ...
+    next_node: typing.Text = ...
     def __init__(
         self,
         *,
@@ -901,6 +903,7 @@ class ExtendedInferParameter(google.protobuf.message.Message):
         serving: typing.Optional[typing.Iterable[builtins.float]] = ...,
         dtype: typing.Text = ...,
         datashape: typing.Optional[typing.Iterable[builtins.int]] = ...,
+        next_node: typing.Text = ...,
     ) -> None: ...
     def ClearField(
         self,
@@ -911,6 +914,8 @@ class ExtendedInferParameter(google.protobuf.message.Message):
             b"datashape",
             "dtype",
             b"dtype",
+            "next_node",
+            b"next_node",
             "node_name",
             b"node_name",
             "serving",

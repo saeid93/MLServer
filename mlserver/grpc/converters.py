@@ -44,6 +44,7 @@ def _get_extended_value(pb_object, default: Optional[Any] = None) -> Any:
         "serving": list(field_value.serving),
         "dtype": field_value.dtype,
         "datashape": field_value.datashape,
+        "next_node": field_value.next_node,
     }
     return extended_parameters
 

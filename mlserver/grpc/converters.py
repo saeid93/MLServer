@@ -1,5 +1,5 @@
 from typing import Any, Union, Mapping, Optional
-
+from .utils import logger
 from . import dataplane_pb2 as pb
 from . import model_repository_pb2 as mr_pb
 
@@ -37,7 +37,9 @@ def _get_extended_value(pb_object, default: Optional[Any] = None) -> Any:
     if len(fields) == 0:
         return default
 
+    logger.info(f"fields: {fields}")
     _, field_value = fields[0]
+    logger.info(f"field value: {field_value}")
     extended_parameters = {
         "node_name": list(field_value.node_name),
         "arrival": list(field_value.arrival),
@@ -47,6 +49,28 @@ def _get_extended_value(pb_object, default: Optional[Any] = None) -> Any:
         "next_node": field_value.next_node,
     }
     return extended_parameters
+
+
+def _get_extended_repeated_value(pb_object, default: Optional[Any] = None) -> Any:
+    fields = pb_object.ListFields()
+    if len(fields) == 0:
+        return default
+
+    _, field_value = fields[0]
+    extended_parameters_repeated = list(
+        map(
+            lambda field_value_item: {
+                "node_name": list(field_value_item.node_name),
+                "arrival": list(field_value_item.arrival),
+                "serving": list(field_value_item.serving),
+                "dtype": field_value_item.dtype,
+                "datashape": field_value_item.datashape,
+                "next_node": field_value_item.next_node,
+            },
+            field_value,
+        )
+    )
+    return extended_parameters_repeated
 
 
 def _merge_map(pb_map: Mapping, value_dict: Mapping) -> Mapping:
@@ -301,12 +325,15 @@ class ParametersConverter:
         if not pb_object:
             return None
 
-        param_dict = {
-            key: _get_value(infer_parameter)
-            if key != "extended_parameters"
-            else _get_extended_value(infer_parameter)
-            for key, infer_parameter in pb_object.items()
-        }
+        param_dict = {}
+        for key, infer_parameter in pb_object.items():
+            if key == "extended_parameters":
+                param_dict[key] = _get_extended_value(infer_parameter)
+            elif key == "extended_parameters_repeated":
+                param_dict[key] = _get_extended_repeated_value(infer_parameter)
+            else:
+                param_dict[key] = _get_value(infer_parameter)
+
         return types.Parameters(**param_dict)
 
     @classmethod
@@ -324,6 +351,13 @@ class ParametersConverter:
             if infer_parameter_key == "extended_param":
                 extended_param = pb.ExtendedInferParameter(**value)
                 infer_parameter = pb.InferParameter(extended_param=extended_param)
+            elif infer_parameter_key == "extended_param_repeated":
+                extended_parameters_repeated = [
+                    pb.ExtendedInferParameter(**repeated_val) for repeated_val in value
+                ]
+                infer_parameter = pb.InferParameter(
+                    extended_param_repeated=extended_parameters_repeated
+                )
             else:
                 infer_parameter = pb.InferParameter(**{infer_parameter_key: value})
             pb_object[key] = infer_parameter
@@ -340,7 +374,8 @@ class ParametersConverter:
             return "int64_param"
         elif isinstance(value, dict):
             return "extended_param"
-
+        elif isinstance(value, list):
+            return "extended_param_repeated"
         return None
 
 

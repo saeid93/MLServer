@@ -390,6 +390,7 @@ components:
         headers:
           type: object
         extended_parameters: {}
+        extended_parameters_repeated: {}
     RequestInput:
       title: RequestInput
       type: object

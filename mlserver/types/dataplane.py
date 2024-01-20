@@ -29,6 +29,7 @@ class Parameters(BaseModel):
     content_type: Optional[str] = None
     headers: Optional[Dict[str, Any]] = None
     extended_parameters: Optional[Any] = None
+    extended_parameters_repeated: Optional[Any] = None
 
 
 class TensorData(BaseModel):

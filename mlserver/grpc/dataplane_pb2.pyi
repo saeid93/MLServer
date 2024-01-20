@@ -935,6 +935,7 @@ class InferParameter(google.protobuf.message.Message):
     INT64_PARAM_FIELD_NUMBER: builtins.int
     STRING_PARAM_FIELD_NUMBER: builtins.int
     EXTENDED_PARAM_FIELD_NUMBER: builtins.int
+    EXTENDED_PARAM_REPEATED_FIELD_NUMBER: builtins.int
     bool_param: builtins.bool = ...
     """A boolean parameter value."""
 
@@ -948,6 +949,14 @@ class InferParameter(google.protobuf.message.Message):
     def extended_param(self) -> global___ExtendedInferParameter:
         """An extended struct for the time values"""
         pass
+    @property
+    def extended_param_repeated(
+        self,
+    ) -> google.protobuf.internal.containers.RepeatedCompositeFieldContainer[
+        global___ExtendedInferParameter
+    ]:
+        """Rpeated extended struct for the time values"""
+        pass
     def __init__(
         self,
         *,
@@ -955,6 +964,9 @@ class InferParameter(google.protobuf.message.Message):
         int64_param: builtins.int = ...,
         string_param: typing.Text = ...,
         extended_param: typing.Optional[global___ExtendedInferParameter] = ...,
+        extended_param_repeated: typing.Optional[
+            typing.Iterable[global___ExtendedInferParameter]
+        ] = ...,
     ) -> None: ...
     def HasField(
         self,
@@ -978,6 +990,8 @@ class InferParameter(google.protobuf.message.Message):
             b"bool_param",
             "extended_param",
             b"extended_param",
+            "extended_param_repeated",
+            b"extended_param_repeated",
             "int64_param",
             b"int64_param",
             "parameter_choice",
@@ -990,9 +1004,7 @@ class InferParameter(google.protobuf.message.Message):
         self,
         oneof_group: typing_extensions.Literal["parameter_choice", b"parameter_choice"],
     ) -> typing.Optional[
-        typing_extensions.Literal[
-            "bool_param", "int64_param", "string_param", "extended_param"
-        ]
+        typing_extensions.Literal["bool_param", "int64_param", "string_param"]
     ]: ...
 
 global___InferParameter = InferParameter

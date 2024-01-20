@@ -288,8 +288,8 @@ message ModelInferResponse
 // A message to represent a node with arrival and serving values.
 message ExtendedInferParameter {
   repeated string node_name = 1;
-  repeated float arrival = 2;
-  repeated float serving = 3;
+  repeated double arrival = 2;
+  repeated double serving = 3;
   string dtype = 4;
   repeated int64 datashape = 5;
   string next_node = 6;
@@ -312,11 +312,12 @@ message InferParameter
 
     // A string parameter value.
     string string_param = 3;
-
+  }
     // An extended struct for the time values
     ExtendedInferParameter extended_param = 4;
 
-  }
+    // Rpeated extended struct for the time values
+    repeated ExtendedInferParameter extended_param_repeated = 5;
 }
 
 

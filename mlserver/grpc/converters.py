@@ -1,5 +1,4 @@
 from typing import Any, Union, Mapping, Optional
-from .utils import logger
 from . import dataplane_pb2 as pb
 from . import model_repository_pb2 as mr_pb
 

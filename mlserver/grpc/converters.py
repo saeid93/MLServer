@@ -37,7 +37,6 @@ def _get_extended_value(pb_object, default: Optional[Any] = None) -> Any:
     if len(fields) == 0:
         return default
 
-    logger.info(f"fields: {fields}")
     _, field_value = fields[0]
     logger.info(f"field value: {field_value}")
     extended_parameters = {

@@ -38,7 +38,6 @@ def _get_extended_value(pb_object, default: Optional[Any] = None) -> Any:
         return default
 
     _, field_value = fields[0]
-    logger.info(f"field value: {field_value}")
     extended_parameters = {
         "node_name": list(field_value.node_name),
         "arrival": list(field_value.arrival),

@@ -79,6 +79,7 @@ class MLServer:
         on_model_reload = [
             self._inference_pool_registry.reload_model,  # type: ignore
             self.reload_custom_handlers,
+            load_batching
         ]
         on_model_unload = [
             self._inference_pool_registry.unload_model,  # type: ignore

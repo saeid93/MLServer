@@ -177,8 +177,10 @@ class SingleModelRegistry:
 
     async def _reload_model(self, old_model: MLModel, new_model: MLModel):
         for callback in self._on_model_reload:
-            new_model = await callback(old_model, new_model)
-
+            if callback.__name__ == "load_batching":
+                new_model = await callback(new_model)
+            else:
+                new_model = await callback(old_model, new_model)
         # Loading the model before unloading the old one - this will ensure
         # that at least one is available (sort of mimicking a rolling
         # deployment)

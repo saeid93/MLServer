@@ -1,6 +1,7 @@
 from fastapi.requests import Request
 from fastapi.responses import Response, HTMLResponse
 from fastapi.openapi.docs import get_swagger_ui_html
+from fastapi import Body
 
 from typing import Optional
 
@@ -114,8 +115,9 @@ class ModelRepositoryEndpoints:
     async def index(self, payload: RepositoryIndexRequest) -> RepositoryIndexResponse:
         return await self._handlers.index(payload)
 
-    async def load(self, model_name: str) -> Response:
-        loaded = await self._handlers.load(name=model_name)
+    async def load(self, model_name: str, new_settings: dict = Body(...)) -> Response:
+
+        loaded = await self._handlers.load(name=model_name, new_settings=new_settings)
         return Response(status_code=to_status_code(loaded))
 
     async def unload(self, model_name: str) -> Response:

@@ -13,6 +13,7 @@ from .settings import ModelSettings
 ModelInitialiser = Callable[[ModelSettings], MLModel]
 ModelRegistryHook = Callable[[MLModel], Awaitable[MLModel]]
 ModelReloadHook = Callable[[MLModel, MLModel], Awaitable[MLModel]]
+ModelReloadCallback = Callable[..., Awaitable[MLModel]]
 
 
 def _get_version(model_settings: ModelSettings) -> Optional[str]:
@@ -62,7 +63,7 @@ class SingleModelRegistry:
         self,
         model_settings: ModelSettings,
         on_model_load: List[ModelRegistryHook] = [],
-        on_model_reload: List[ModelReloadHook] = [],
+        on_model_reload: List[ModelReloadCallback] = [],
         on_model_unload: List[ModelRegistryHook] = [],
         model_initialiser: ModelInitialiser = model_initialiser,
     ):
@@ -278,7 +279,7 @@ class MultiModelRegistry:
     def __init__(
         self,
         on_model_load: List[ModelRegistryHook] = [],
-        on_model_reload: List[ModelReloadHook] = [],
+        on_model_reload: List[ModelReloadCallback] = [],
         on_model_unload: List[ModelRegistryHook] = [],
         model_initialiser: ModelInitialiser = model_initialiser,
     ):

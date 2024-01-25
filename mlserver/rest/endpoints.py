@@ -116,7 +116,6 @@ class ModelRepositoryEndpoints:
         return await self._handlers.index(payload)
 
     async def load(self, model_name: str, new_settings: dict = Body(...)) -> Response:
-
         loaded = await self._handlers.load(name=model_name, new_settings=new_settings)
         return Response(status_code=to_status_code(loaded))
 

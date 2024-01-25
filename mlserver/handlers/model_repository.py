@@ -1,3 +1,4 @@
+from typing import Optional, Dict, Any
 from ..settings import ModelSettings
 from ..registry import MultiModelRegistry
 from ..repository import ModelRepository
@@ -59,15 +60,17 @@ class ModelRepositoryHandlers:
 
         return State.UNKNOWN
 
-    async def load(self, name: str, new_settings: dict = None) -> bool:
+    async def load(
+        self, name: str, new_settings: Optional[Dict[str, Any]] = None
+    ) -> bool:
         all_model_settings = await self._repository.find(name)
 
         loaded_versions = set()
         for model_settings in all_model_settings:
             if new_settings is not None:
-               for setting_name, setting_value in new_settings.items():
-                   if setting_name in model_settings.__annotations__:
-                       setattr(model_settings, setting_name, setting_value)
+                for setting_name, setting_value in new_settings.items():
+                    if setting_name in model_settings.__annotations__:
+                        setattr(model_settings, setting_name, setting_value)
             model = await self._model_registry.load(model_settings)
 
             # Add to loaded versions set to later remove stale models

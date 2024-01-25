@@ -61,7 +61,7 @@ class MLServer:
             self.add_custom_handlers,
             load_batching,
         ]
-        on_model_reload = [self.reload_custom_handlers]
+        on_model_reload = [self.reload_custom_handlers, load_batching]
         on_model_unload = [self.remove_custom_handlers]
 
         if not self._inference_pool_registry:
@@ -79,7 +79,7 @@ class MLServer:
         on_model_reload = [
             self._inference_pool_registry.reload_model,  # type: ignore
             self.reload_custom_handlers,
-            load_batching
+            load_batching,
         ]
         on_model_unload = [
             self._inference_pool_registry.unload_model,  # type: ignore

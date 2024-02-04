@@ -34,6 +34,11 @@ class DataPlane:
         )
 
         # TODO: Update to standardised set of labels
+        self._ModelInferRequestTotal = Counter(
+            "model_infer_request_total",
+            "Model infer request total count",
+            ["model", "version"],
+        )
         self._ModelInferRequestSuccess = Counter(
             "model_infer_request_success",
             "Model infer request success count",
@@ -88,6 +93,8 @@ class DataPlane:
         infer_errors = self._ModelInferRequestFailure.labels(
             model=name, version=version
         ).count_exceptions()
+
+        self._ModelInferRequestTotal.labels(model=name, version=version).inc()
 
         with infer_duration, infer_errors:
             if payload.id is None:

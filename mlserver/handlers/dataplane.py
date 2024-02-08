@@ -1,7 +1,4 @@
-from prometheus_client import (
-    Counter,
-    Summary,
-)
+from prometheus_client import Counter, Summary, Gauge
 from typing import Optional
 
 from ..errors import ModelNotReady
@@ -17,6 +14,7 @@ from ..types import (
 from ..middleware import InferenceMiddlewares
 from ..cloudevents import CloudEventsMiddleware
 from ..utils import generate_uuid
+from ..logging import logger
 
 
 class DataPlane:
@@ -37,6 +35,11 @@ class DataPlane:
         self._ModelInferRequestTotal = Counter(
             "model_infer_request_total",
             "Model infer request total count",
+            ["model", "version"],
+        )
+        self._ModelInferRequestSLA = Gauge(
+            "model_infer_request_sla",
+            "Model request Service Level Agreement (SLA)",
             ["model", "version"],
         )
         self._ModelInferRequestSuccess = Counter(
@@ -95,6 +98,11 @@ class DataPlane:
         ).count_exceptions()
 
         self._ModelInferRequestTotal.labels(model=name, version=version).inc()
+        try:
+            sla = payload.inputs[0].parameters.extended_parameters['sla']
+        except (AttributeError, TypeError):
+            sla = 0
+        self._ModelInferRequestSLA.labels(model=name, version=version).set(sla)
 
         with infer_duration, infer_errors:
             if payload.id is None:

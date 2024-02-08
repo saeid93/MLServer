@@ -44,6 +44,7 @@ def _get_extended_value(pb_object, default: Optional[Any] = None) -> Any:
         "dtype": field_value.dtype,
         "datashape": field_value.datashape,
         "next_node": field_value.next_node,
+        "sla": field_value.sla,
     }
     return extended_parameters
 
@@ -63,6 +64,7 @@ def _get_extended_repeated_value(pb_object, default: Optional[Any] = None) -> An
                 "dtype": field_value_item.dtype,
                 "datashape": field_value_item.datashape,
                 "next_node": field_value_item.next_node,
+                "sla": field_value_item.sla,
             },
             field_value,
         )

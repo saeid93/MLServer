@@ -293,6 +293,7 @@ message ExtendedInferParameter {
   string dtype = 4;
   repeated int64 datashape = 5;
   string next_node = 6;
+  int64 sla = 7;
 }
 
 //

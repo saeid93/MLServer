@@ -869,6 +869,7 @@ class ExtendedInferParameter(google.protobuf.message.Message):
     DTYPE_FIELD_NUMBER: builtins.int
     DATASHAPE_FIELD_NUMBER: builtins.int
     NEXT_NODE_FIELD_NUMBER: builtins.int
+    SLA_FIELD_NUMBER: builtins.int
     @property
     def node_name(
         self,
@@ -895,6 +896,7 @@ class ExtendedInferParameter(google.protobuf.message.Message):
         builtins.int
     ]: ...
     next_node: typing.Text = ...
+    sla: builtins.int = ...
     def __init__(
         self,
         *,
@@ -904,6 +906,7 @@ class ExtendedInferParameter(google.protobuf.message.Message):
         dtype: typing.Text = ...,
         datashape: typing.Optional[typing.Iterable[builtins.int]] = ...,
         next_node: typing.Text = ...,
+        sla: builtins.int = ...,
     ) -> None: ...
     def ClearField(
         self,
@@ -920,6 +923,8 @@ class ExtendedInferParameter(google.protobuf.message.Message):
             b"node_name",
             "serving",
             b"serving",
+            "sla",
+            b"sla",
         ],
     ) -> None: ...
 
